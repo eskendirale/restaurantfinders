@@ -1,17 +1,16 @@
 package InduScuad.com.restaurantfinders;
 
-import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.sun.istack.NotNull;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
-public class Users {
+public class UsersTable {
     @Id
     @GeneratedValue
     private int id;
@@ -19,12 +18,16 @@ public class Users {
     private String username;
     @NotNull
     private String pwHash;
+    private Date dateCreatedPassword;
+    private Date dateModifiedPassword;
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    public Users(){}
+    public UsersTable(){}
 
-    public Users(int id,String username, String password){
+    public UsersTable(Date dateCreatedPassword,Date dateModifiedPassword,int id, String username, String password){
         this.id = id;
+        this.dateCreatedPassword = dateCreatedPassword;
+        this.dateModifiedPassword = dateModifiedPassword;
         this.username = username;
         this.pwHash = encoder.encode(password);
     }
@@ -37,6 +40,14 @@ public class Users {
         this.id = id;
     }
 
+    public Date getDateCreatedPassword() {
+        return dateCreatedPassword = new Date();
+    }
+
+    public Date getDateModifiedPassword() {
+        return dateModifiedPassword = new Date();
+    }
+
     public String getUsername() {
         return username;
     }
@@ -47,7 +58,7 @@ public class Users {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Users that = (Users) o;
+        UsersTable that = (UsersTable) o;
         return id == that.id;
     }
 
